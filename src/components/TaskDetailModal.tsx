@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import type { Task, ProjectMember } from '../types';
-import { useAuth } from '../hooks/useAuth';
 import { useComments } from '../hooks/useComments';
-import { useDeleteTask, useUpdateTask, useAssignTask, useUnassignTask } from '../hooks/useTasks';
+import {
+  useDeleteTask,
+  useUpdateTask,
+  useAssignTask,
+  useUnassignTask,
+} from '../hooks/useTasks';
 import { formatFullDate } from '../utils/formatDate';
 import PriorityBadge from './PriorityBadge';
 import UserAvatar from './UserAvatar';
@@ -26,7 +30,6 @@ const TaskDetailModal = ({
   ownerUsername,
   onClose,
 }: TaskDetailModalProps) => {
-  const { user } = useAuth();
   const { data: comments } = useComments(task.id);
 
   const updateTask = useUpdateTask(projectId);
@@ -38,12 +41,20 @@ const TaskDetailModal = ({
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description || '');
   const [priority, setPriority] = useState(task.priority);
-  const [dueDate, setDueDate] = useState(task.dueDate ? task.dueDate.split('T')[0] : '');
+  const [dueDate, setDueDate] = useState(
+    task.dueDate ? task.dueDate.split('T')[0] : ''
+  );
   const [showAssign, setShowAssign] = useState(false);
 
   // Combine owner + members into a single array of assignable users
   const allUsers = [
-    { userId: ownerId, username: ownerUsername, profilePictureUrl: null, role: 'Admin', joinedAt: '' },
+    {
+      userId: ownerId,
+      username: ownerUsername,
+      profilePictureUrl: null,
+      role: 'Admin',
+      joinedAt: '',
+    },
     ...members.filter((m) => m.userId !== ownerId),
   ];
 
@@ -216,7 +227,9 @@ const TaskDetailModal = ({
                         <button
                           key={u.userId}
                           onClick={() =>
-                            isAssigned ? handleUnassign(u.userId) : handleAssign(u.userId)
+                            isAssigned
+                              ? handleUnassign(u.userId)
+                              : handleAssign(u.userId)
                           }
                           className="w-full flex items-center gap-2 px-2 py-1.5 hover:bg-white rounded-md text-left"
                         >
@@ -237,7 +250,9 @@ const TaskDetailModal = ({
 
                 <div className="flex flex-wrap gap-2">
                   {task.assignments.length === 0 && (
-                    <p className="text-xs text-gray-400">Nobody assigned yet.</p>
+                    <p className="text-xs text-gray-400">
+                      Nobody assigned yet.
+                    </p>
                   )}
                   {task.assignments.map((a) => (
                     <div

@@ -14,7 +14,6 @@ interface MemberListProps {
 const MemberList = ({
   projectId,
   members,
-  ownerId,
   ownerUsername,
   canManage,
 }: MemberListProps) => {
