@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:5280/api';
+const BASE_URL = 'https://tasknest-backend-zz24.onrender.com/api';
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
